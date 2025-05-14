@@ -1,0 +1,83 @@
+﻿<Page x:Class="library.Views.ReaderDashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:library.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Панель Читателя" Loaded="Page_Loaded">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15" VerticalAlignment="Center">
+             <TextBlock x:Name="WelcomeTextBlock" Text="Добро пожаловать!" Style="{StaticResource PageTitleStyle}" VerticalAlignment="Center"/>
+             <Button Content="Выйти" Click="LogoutButton_Click" Style="{StaticResource DangerButton}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,0,0"/> <!-- auto для растягивания -->
+        </StackPanel>
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="Каталог доступных книг">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Padding="10" Margin="0,0,0,10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                        <StackPanel Orientation="Vertical">
+                            <WrapPanel Margin="0,0,0,10" Orientation="Horizontal">
+                                <Label Content="Поиск:"/>
+                                <TextBox x:Name="SearchTextBox" Width="200" Margin="0,0,10,0" TextChanged="SearchOrFilter_Changed"/>
+                                <Label Content="Жанр:"/>
+                                <ComboBox x:Name="GenreFilterComboBox" Width="150" DisplayMemberPath="GenreName" SelectedValuePath="GenreID" SelectionChanged="SearchOrFilter_Changed" Margin="0,0,10,0"/>
+                                <Label Content="Автор:"/>
+                                <ComboBox x:Name="AuthorFilterComboBox" Width="180" DisplayMemberPath="FullName" SelectedValuePath="AuthorID" SelectionChanged="SearchOrFilter_Changed" Margin="0,0,10,0"/>
+                            </WrapPanel>
+                            <WrapPanel HorizontalAlignment="Left">
+                               
+                                <Button Content="Сбросить все фильтры" Click="ResetFiltersButton_Click" Style="{StaticResource SecondaryButton}" Width="180"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+
+                    <DataGrid Grid.Row="1" x:Name="BooksDataGrid" SelectionChanged="CatalogDataGrid_SelectionChanged" AddingNewItem="BooksDataGrid_AddingNewItem">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*"/>
+                            <DataGridTextColumn Header="Автор" Binding="{Binding Authors.FullName}" Width="200"/>
+                            <DataGridTextColumn Header="Жанр" Binding="{Binding Genres.GenreName}" Width="150"/>
+                            <DataGridTextColumn Header="Год" Binding="{Binding PublicationDate}" Width="70"/>
+                            <DataGridTextColumn Header="Издательство" Binding="{Binding Publishers.PublisherName}" Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Button Grid.Row="2" x:Name="BorrowButton" Content="Взять выбранную книгу" Click="BorrowButton_Click"
+                            HorizontalAlignment="Right" Margin="0,10,0,0" IsEnabled="False" Style="{StaticResource SuccessButton}"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Мои книги (взятые)">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0" x:Name="MyBooksDataGrid" SelectionChanged="MyBooksDataGrid_SelectionChanged" AddingNewItem="MyBooksDataGrid_AddingNewItem">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название" Binding="{Binding BookCopies.Books.Title}" Width="*"/>
+                            <DataGridTextColumn Header="Автор" Binding="{Binding BookCopies.Books.Authors.FullName}" Width="200"/>
+                            <DataGridTextColumn Header="Дата выдачи" Binding="{Binding BorrowDate, StringFormat='dd.MM.yyyy'}" Width="150"/>
+                            <DataGridTextColumn Header="Вернуть до" Binding="{Binding DueDate, StringFormat='dd.MM.yyyy'}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Grid.Row="1" x:Name="ReturnButton" Content="Вернуть выбранную книгу" Click="ReturnButton_Click"
+                            HorizontalAlignment="Right" Margin="0,10,0,0" IsEnabled="False" Style="{StaticResource SuccessButton}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

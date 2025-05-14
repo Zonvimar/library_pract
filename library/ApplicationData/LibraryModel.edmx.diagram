@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a3ba174415114b57ae8236adf6d5620c" Name="Diagram1">
+        <EntityTypeShape EntityType="LibraryModel.Authors" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryModel.Books" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryModel.BorrowingRecords" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryModel.Genres" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryModel.Publishers" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryModel.Roles" Width="1.5" PointX="0.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LibraryModel.Users" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <AssociationConnector Association="LibraryModel.FK__Books__AuthorID__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryModel.FK__Books__GenreID__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryModel.FK__Books__Publisher__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryModel.FK_BorrowingRecords_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryModel.FK__Borrowing__UserI__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="LibraryModel.FK__Users__RoleID__3A81B327" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

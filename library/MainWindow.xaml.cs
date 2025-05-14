@@ -1,4 +1,6 @@
-﻿using System;
+﻿using library.ApplicationData;
+using library.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,19 @@ namespace library
         public MainWindow()
         {
             InitializeComponent();
+            AppConnect.Initialize();
+            MainFrame.Navigate(new LoginPage());
+        }
+
+        public void NavigateTo(Page page)
+        {
+            MainFrame.Navigate(page);
+        }
+
+        public void Logout()
+        {
+            AppConnect.CurrentUser = null;
+            MainFrame.Navigate(new LoginPage());
         }
     }
 }
