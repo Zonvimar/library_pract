@@ -20,7 +20,7 @@
             <Button Content="Выйти" Click="LogoutButton_Click" Style="{StaticResource DangerButton}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,0,0"/>
         </StackPanel>
 
-        <TabControl Grid.Row="1">
+        <TabControl Grid.Row="1" SelectedIndex="0">
 
             <TabItem Header="Управление книгами">
                 <Grid Margin="5">

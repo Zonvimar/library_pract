@@ -90,5 +90,13 @@ namespace library.Views
                 mainWindow.NavigateTo(new RegisterPage());
             }
         }
+
+        private void InputField_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                LoginButton_Click(null, null);
+            }
+        }
     }
 }

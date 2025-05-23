@@ -16,10 +16,10 @@
                            HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
                 <Label Content="Email:"/>
-                <TextBox x:Name="EmailTextBox" Margin="0,0,0,10"/>
+                <TextBox x:Name="EmailTextBox" Margin="0,0,0,10" KeyDown="InputField_KeyDown"/>
 
                 <Label Content="Пароль:"/>
-                <PasswordBox x:Name="PasswordBox" Margin="0,0,0,20"/>
+                <PasswordBox x:Name="PasswordBox" Margin="0,0,0,20" KeyDown="InputField_KeyDown"/>
 
                 <Button Content="Войти" Click="LoginButton_Click" Margin="0,0,0,10" Cursor="Hand"/>
                 <Button Content="Регистрация" Click="RegisterButton_Click" Background="{StaticResource SecondaryBrush}"/>
