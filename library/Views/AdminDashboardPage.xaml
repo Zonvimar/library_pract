@@ -1,0 +1,143 @@
+﻿<Page x:Class="library.Views.AdminDashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:library.Views"
+      xmlns:converters="clr-namespace:library.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1200"
+      Title="Панель Администратора" Loaded="Page_Loaded">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15" VerticalAlignment="Center">
+            <TextBlock x:Name="WelcomeTextBlock" Text="Панель администратора" Style="{StaticResource PageTitleStyle}" VerticalAlignment="Center"/>
+            <Button Content="Выйти" Click="LogoutButton_Click" Style="{StaticResource DangerButton}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,0,0"/>
+        </StackPanel>
+
+        <TabControl Grid.Row="1">
+
+            <TabItem Header="Управление книгами">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Padding="10" Margin="0,0,0,10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                        <StackPanel>
+                            <WrapPanel Margin="0,0,0,10">
+                                <Label Content="Поиск:"/>
+                                <TextBox x:Name="BookSearchTextBox" Width="200" Margin="0,0,10,0" TextChanged="BookSearch_Changed"/>
+                                <Label Content="Жанр:"/>
+                                <ComboBox x:Name="BookGenreFilterComboBox" Width="150" DisplayMemberPath="GenreName" SelectedValuePath="GenreID" SelectionChanged="BookFilter_Changed" Margin="0,0,10,0"/>
+                                <CheckBox x:Name="ShowUnavailableCheckBox" Content="Показать недоступные" Margin="10,0,0,0" Checked="BookFilter_Changed" Unchecked="BookFilter_Changed"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Button Content="Добавить книгу" Click="AddBookButton_Click" Style="{StaticResource SuccessButton}" Margin="0,0,10,0"/>
+                                <Button Content="Сбросить фильтры" Click="ResetBookFiltersButton_Click" Style="{StaticResource SecondaryButton}"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <DataGrid Grid.Row="1" x:Name="AdminBooksDataGrid" SelectionChanged="AdminBooksDataGrid_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding BookID}" Width="50"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*"/>
+                            <DataGridTextColumn Header="Автор" Binding="{Binding Authors.FullName}" Width="150"/>
+                            <DataGridTextColumn Header="Жанр" Binding="{Binding Genres.GenreName}" Width="120"/>
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="120"/>
+                            <DataGridTextColumn Header="Год" Binding="{Binding PublicationDate, StringFormat='yyyy'}" Width="80"/>
+                            <DataGridCheckBoxColumn Header="Доступна" Binding="{Binding IsAvailable}" Width="80"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button x:Name="EditBookButton" Content="Редактировать" Click="EditBookButton_Click" IsEnabled="False" Margin="0,0,10,0"/>
+                        <Button x:Name="DeleteBookButton" Content="Удалить" Click="DeleteBookButton_Click" Style="{StaticResource DangerButton}" IsEnabled="False"/>
+                    </WrapPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Читатели">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Padding="10" Margin="0,0,0,10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                        <WrapPanel>
+                            <Label Content="Поиск читателя:"/>
+                            <TextBox x:Name="UserSearchTextBox" Width="300" Margin="0,0,10,0" TextChanged="UserSearch_Changed"/>
+                            <Button Content="Сбросить" Click="ResetUserSearchButton_Click" Style="{StaticResource SecondaryButton}"/>
+                        </WrapPanel>
+                    </Border>
+
+                    <DataGrid Grid.Row="1" x:Name="UsersDataGrid">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding UserID}" Width="50"/>
+                            <DataGridTextColumn Header="Полное имя" Binding="{Binding FullName}" Width="*"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="200"/>
+                            <DataGridTextColumn Header="Роль" Binding="{Binding Roles.RoleName}" Width="120"/>
+                            <DataGridTextColumn Header="Книг на руках" Binding="{Binding ActiveBorrowingsCount}" Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Выдача/Возврат">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Padding="10" Margin="0,0,0,10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                        <WrapPanel>
+                            <Label Content="Фильтр:"/>
+                            <ComboBox x:Name="BorrowingStatusComboBox" Width="150" SelectionChanged="BorrowingFilter_Changed" Margin="0,0,10,0">
+                                <ComboBoxItem Content="Все записи" IsSelected="True"/>
+                                <ComboBoxItem Content="Активные"/>
+                                <ComboBoxItem Content="Возвращенные"/>
+                                <ComboBoxItem Content="Просроченные"/>
+                            </ComboBox>
+                            <Label Content="Поиск:"/>
+                            <TextBox x:Name="BorrowingSearchTextBox" Width="200" TextChanged="BorrowingSearch_Changed"/>
+                        </WrapPanel>
+                    </Border>
+
+                    <DataGrid Grid.Row="1" x:Name="BorrowingRecordsDataGrid" SelectionChanged="BorrowingRecordsDataGrid_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding BorrowingID}" Width="50"/>
+                            <DataGridTextColumn Header="Читатель" Binding="{Binding Users.FullName}" Width="150"/>
+                            <DataGridTextColumn Header="Книга" Binding="{Binding Books.Title}" Width="*"/>
+                            <DataGridTextColumn Header="Дата выдачи" Binding="{Binding BorrowDate, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                            <DataGridTextColumn Header="Вернуть до" Binding="{Binding DueDate, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                            <DataGridTextColumn Header="Дата возврата" Binding="{Binding ReturnDate, StringFormat='dd.MM.yyyy'}" Width="100"/>
+                            <DataGridTextColumn Header="Статус" Width="100">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{x:Static converters:BorrowingStatusConverter.Instance}">
+                                        <Binding Path="ReturnDate"/>
+                                        <Binding Path="DueDate"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button x:Name="ForceReturnButton" Content="Принудительный возврат" Click="ForceReturnButton_Click" Style="{StaticResource DangerButton}" IsEnabled="False"/>
+                    </WrapPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

@@ -16,9 +16,7 @@ using System.Windows.Shapes;
 
 namespace library.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для LoginPage.xaml
-    /// </summary>
+
     public partial class LoginPage : Page
     {
         public LoginPage()
@@ -56,7 +54,7 @@ namespace library.Views
                         {
                             if (userRole.RoleName == "Администратор")
                             {
-                                //mainWindow.NavigateTo(new AdminDashboardPage());
+                                mainWindow.NavigateTo(new AdminDashboardPage());
                             }
                             else if (userRole.RoleName == "Читатель")
                             {

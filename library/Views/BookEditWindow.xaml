@@ -1,0 +1,67 @@
+﻿<Window x:Class="library.Views.BookEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:library.Views"
+        mc:Ignorable="d"
+        Title="Редактирование книги" Height="600" Width="500" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="TitleTextBlock" Text="Добавление новой книги" Style="{StaticResource PageTitleStyle}" Grid.Row="0" Margin="0,0,0,20"/>
+
+        <Border Grid.Row="1" Style="{StaticResource ShadowBorderStyle}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10">
+
+                    <Label Content="Название книги *" FontWeight="SemiBold"/>
+                    <TextBox x:Name="BookTitleTextBox" Margin="0,0,0,15" MaxLength="200"/>
+
+                    <Label Content="ISBN" FontWeight="SemiBold"/>
+                    <TextBox x:Name="ISBNTextBox" Margin="0,0,0,15" MaxLength="20" 
+                             ToolTip="Формат: 978-5-XXX-XXXXX-X"/>
+
+                    <Label Content="Автор *" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="AuthorComboBox" Margin="0,0,0,15"
+                              DisplayMemberPath="FullName" SelectedValuePath="AuthorID"/>
+
+                    <Label Content="Жанр *" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="GenreComboBox" Margin="0,0,0,15"
+                              DisplayMemberPath="GenreName" SelectedValuePath="GenreID"/>
+
+                    <Label Content="Издательство" FontWeight="SemiBold"/>
+                    <ComboBox x:Name="PublisherComboBox" Margin="0,0,0,15"
+                              DisplayMemberPath="PublisherName" SelectedValuePath="PublisherID"/>
+
+                    <Label Content="Дата публикации" FontWeight="SemiBold"/>
+                    <DatePicker x:Name="PublicationDatePicker" Margin="0,0,0,15"
+                                SelectedDateFormat="Short"/>
+
+                    <CheckBox x:Name="IsAvailableCheckBox" Content="Книга доступна для выдачи" 
+                              IsChecked="True" Margin="0,0,0,15" FontWeight="SemiBold"/>
+
+                    <TextBlock x:Name="ErrorMessageTextBlock" Foreground="{StaticResource ErrorBrush}" 
+                               TextWrapping="Wrap" Margin="0,10,0,0" Visibility="Collapsed"/>
+
+                    <TextBlock Text="* - Обязательные поля" FontStyle="Italic" 
+                               Foreground="{StaticResource DarkGrayBrush}" FontSize="12" 
+                               Margin="0,10,0,0"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button x:Name="SaveButton" Content="Сохранить" Click="SaveButton_Click" 
+                    Style="{StaticResource SuccessButton}" Width="100" Margin="0,0,10,0"/>
+            <Button x:Name="CancelButton" Content="Отмена" Click="CancelButton_Click" 
+                    Style="{StaticResource SecondaryButton}" Width="100"/>
+        </StackPanel>
+    </Grid>
+</Window>

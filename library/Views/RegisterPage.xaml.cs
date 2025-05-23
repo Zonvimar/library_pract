@@ -16,9 +16,7 @@ using System.Windows.Shapes;
 
 namespace library.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для RegisterPage.xaml
-    /// </summary>
+
     public partial class RegisterPage : Page
     {
         public RegisterPage()

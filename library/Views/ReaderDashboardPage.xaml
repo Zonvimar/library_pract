@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:library.Views"
+      xmlns:converters="clr-namespace:library.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Панель Читателя" Loaded="Page_Loaded">
@@ -14,8 +15,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15" VerticalAlignment="Center">
-             <TextBlock x:Name="WelcomeTextBlock" Text="Добро пожаловать!" Style="{StaticResource PageTitleStyle}" VerticalAlignment="Center"/>
-             <Button Content="Выйти" Click="LogoutButton_Click" Style="{StaticResource DangerButton}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,0,0"/> <!-- auto для растягивания -->
+            <TextBlock x:Name="WelcomeTextBlock" Text="Добро пожаловать!" Style="{StaticResource PageTitleStyle}" VerticalAlignment="Center"/>
+            <Button Content="Выйти" Click="LogoutButton_Click" Style="{StaticResource DangerButton}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="30,0,0,0"/>
         </StackPanel>
 
         <TabControl Grid.Row="1">
@@ -38,20 +39,19 @@
                                 <ComboBox x:Name="AuthorFilterComboBox" Width="180" DisplayMemberPath="FullName" SelectedValuePath="AuthorID" SelectionChanged="SearchOrFilter_Changed" Margin="0,0,10,0"/>
                             </WrapPanel>
                             <WrapPanel HorizontalAlignment="Left">
-                               
                                 <Button Content="Сбросить все фильтры" Click="ResetFiltersButton_Click" Style="{StaticResource SecondaryButton}" Width="180"/>
                             </WrapPanel>
                         </StackPanel>
                     </Border>
 
-
-                    <DataGrid Grid.Row="1" x:Name="BooksDataGrid" SelectionChanged="CatalogDataGrid_SelectionChanged" AddingNewItem="BooksDataGrid_AddingNewItem">
+                    <DataGrid Grid.Row="1" x:Name="BooksDataGrid" SelectionChanged="CatalogDataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*"/>
                             <DataGridTextColumn Header="Автор" Binding="{Binding Authors.FullName}" Width="200"/>
                             <DataGridTextColumn Header="Жанр" Binding="{Binding Genres.GenreName}" Width="150"/>
-                            <DataGridTextColumn Header="Год" Binding="{Binding PublicationDate}" Width="70"/>
+                            <DataGridTextColumn Header="Год" Binding="{Binding PublicationDate, StringFormat='yyyy'}" Width="70"/>
                             <DataGridTextColumn Header="Издательство" Binding="{Binding Publishers.PublisherName}" Width="120"/>
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="120"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -66,12 +66,20 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <DataGrid Grid.Row="0" x:Name="MyBooksDataGrid" SelectionChanged="MyBooksDataGrid_SelectionChanged" AddingNewItem="MyBooksDataGrid_AddingNewItem">
+                    <DataGrid Grid.Row="0" x:Name="MyBooksDataGrid" SelectionChanged="MyBooksDataGrid_SelectionChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Название" Binding="{Binding BookCopies.Books.Title}" Width="*"/>
-                            <DataGridTextColumn Header="Автор" Binding="{Binding BookCopies.Books.Authors.FullName}" Width="200"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding Books.Title}" Width="*"/>
+                            <DataGridTextColumn Header="Автор" Binding="{Binding Books.Authors.FullName}" Width="200"/>
                             <DataGridTextColumn Header="Дата выдачи" Binding="{Binding BorrowDate, StringFormat='dd.MM.yyyy'}" Width="150"/>
                             <DataGridTextColumn Header="Вернуть до" Binding="{Binding DueDate, StringFormat='dd.MM.yyyy'}" Width="150"/>
+                            <DataGridTextColumn Header="Дней осталось" Width="120">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{x:Static converters:DaysRemainingConverter.Instance}">
+                                        <Binding Path="DueDate"/>
+                                        <Binding Path="ReturnDate"/>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button Grid.Row="1" x:Name="ReturnButton" Content="Вернуть выбранную книгу" Click="ReturnButton_Click"

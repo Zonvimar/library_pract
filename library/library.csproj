@@ -101,6 +101,14 @@
     <Compile Include="ApplicationData\Users.cs">
       <DependentUpon>LibraryModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BorrowingStatusConverter.cs" />
+    <Compile Include="Converters\DaysRemainingConverter.cs" />
+    <Compile Include="Views\AdminDashboardPage.xaml.cs">
+      <DependentUpon>AdminDashboardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BookEditWindow.xaml.cs">
+      <DependentUpon>BookEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -123,6 +131,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\AdminDashboardPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BookEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
